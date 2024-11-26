@@ -1,0 +1,22 @@
+{
+  "name": "minidev02",
+  "version": "1.0.0",
+  "description": "Mini editor de códigos feito usando o framework Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saulogomesdocarmo/minidev02.git"
+  },
+  "author": "Saulo Gomes do Carmo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/saulogomesdocarmo/minidev02/issues"
+  },
+  "homepage": "https://github.com/saulogomesdocarmo/minidev02#readme",
+  "devDependencies": {
+    "electron": "^33.2.0"
+  }
+}
