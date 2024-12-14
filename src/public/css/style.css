@@ -68,5 +68,58 @@ body {
 }
 
 #txtArea:focus {
+    /* Remover o foco da área de texto */
     outline: none;
+}
+
+#sobre {
+    padding-left: 15px;
+}
+
+#sobre h1,
+p {
+    font-family: "Source Code Pro";
+    color: var(--cinzaClaro);
+}
+
+#sobre h1 {
+    font-weight: 500;
+    font-size: 1.25em;
+}
+
+#sobre p {
+    border-right: 2px solid;
+    width: 26ch;
+    /* efeito de animação */
+    white-space: nowrap;
+    overflow: hidden;
+    /* executar as funções de animação abaixo */
+    animation: typing 2s steps(26), blink-cursor 0.5s step-end infinite;
+}
+
+/* Funções CSS para animação */
+
+@keyframes blink-cursor {
+    50% {
+        border-color: transparent;
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+}
+
+#sobre button {
+    padding: 5px 20px;
+    background-color: var(--cinzaClaro);
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+#sobre button:hover {
+    background-color: var(--branco);
 }

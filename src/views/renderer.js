@@ -58,3 +58,17 @@ api.setColor((event, color) => {
         area.style.color = color
     }
 })
+
+
+api.setFile((event, file) => {
+    area.value = file.content
+
+    const nomeArquivo = document.getElementById('titulo')
+
+    nomeArquivo.innerHTML = `${file.name} - Mini Dev Editor`
+    atualizarLinhas()
+})
+
+function update() {
+    api.atualizarConteudo(area.value)
+}

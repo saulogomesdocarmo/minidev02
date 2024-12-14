@@ -2,6 +2,15 @@
 const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain, dialog } = require('electron/main')
 const path = require('node:path')
 
+// Importação da biblioteca file system (nativa do javascript) para manipular arquivos
+const fs = require('fs')
+
+// criação de um objeto com a estrutura básica de um arquivo
+let file = {}
+
+
+
+
 let win
 function createWindow() {
     nativeTheme.themeSource = 'dark'
@@ -204,3 +213,112 @@ const template = [
         ]
     },
 ]
+
+
+// Novo Arquivo
+
+function novoArquivo() {
+    file = {
+        name: "Sem titulo",
+        content: "",
+        saved: false,
+        path: app.getPath('documents') + 'titulo'
+    }
+
+    console.log(file)
+
+    win.webContents.send('set-file', file)
+}
+
+
+// Abrir arquivo
+
+// 2 Funções -> abrirAqruivo() LerArquivo(caminho)
+
+async function abrirArquivo() {
+
+    let dialogFile = await dialog.showOpenDialog({
+        defaultPath: file.path
+    })
+
+    // console.log(dialogFile)
+
+    if (dialogFile.canceled === true) {
+        return false
+
+    } else {
+
+        file = {
+            name: path.basename(dialogFile.filePaths[0]),
+            content: lerArquivos(dialogFile.filePaths[0]),
+            saved: true,
+            path: dialogFile.filePaths[0],
+        }
+
+        console.log(file)
+        win.webContents.send('set-file', file)
+    }
+}
+
+// Ler arquivos
+
+function lerArquivos(filePath) {
+    // Usar o trycatch -> sempre que trabalhar com arquivos
+
+    try {
+        return fs.readFileSync(filePath, 'utf-8')
+
+    } catch (error) {
+        console.log(error)
+        return ''
+    }
+}
+
+// Salvar e Salvar como
+
+// 3 Funções 1 -> Salvar como 2 -> Salvar 3 -> Salvar arquivo
+
+async function salvarComo() {
+    let dialogFile = await dialog.showSaveDialog({
+        defaultPath: file.path
+    })
+
+    if (dialogFile.canceled === true) {
+        return false
+
+    } else {
+        salvarArquivo(dialogFile.filePath)
+    }
+}
+
+function salvar() {
+    if (file.saved === true) {
+        return salvarArquivo(file.path)
+
+    } else {
+        return salvarComo()
+    }
+}
+
+
+function salvarArquivo(filePath) {
+    console.log(file)
+
+    try {
+        fs.writeFile(filePath, file.content,
+            (error) => {
+                file.path = filePath
+                file.saved = true
+                file.name = path.basename(filePath)
+
+                win.webContents.send('set-file', file)
+            }
+        )
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+ipcMain.on('update-content', (event, value) => {
+    file.content = value
+})
