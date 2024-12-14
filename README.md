@@ -1,3 +1,5 @@
 # minidev02
-Mini editor de códigos  criado com o framework electron
+Mini editor de códigos desenvolvido com o framework Javascript Eléctron.
+
+
 ![](printminidev002.png)
